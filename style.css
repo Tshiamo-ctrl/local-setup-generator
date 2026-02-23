@@ -737,6 +737,19 @@ button,
 header {
     -webkit-app-region: drag;
     position: relative;
+    user-select: none;
+}
+
+.drag-handle {
+    position: fixed;
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-app-region: drag;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    color: hsl(var(--muted-foreground));
+    z-index: 9999;
 }
 
 header button,
@@ -760,7 +773,10 @@ header a,
 
 header:hover .window-controls,
 .window-controls:hover,
-body:hover .window-controls {
+body:hover .window-controls,
+header:hover .drag-handle,
+.drag-handle:hover,
+body:hover .drag-handle {
     opacity: 1;
 }
 
