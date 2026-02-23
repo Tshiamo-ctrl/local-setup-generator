@@ -2192,12 +2192,13 @@ echo "Done."
                 // Feature Flags Control
                 const hasDb = repo.features ? (repo.features.hasDb !== false) : true;
                 const hasDemo = repo.features ? (repo.features.hasDemo !== false) : true;
+                const hasAdmin = repo.features && repo.features.hasAdmin !== undefined ? repo.features.hasAdmin : hasDb;
 
                 // Show/Hide Containers
                 // dbOptionContainer is a block (div wrapping form-group)
                 document.getElementById('dbOptionContainer').style.display = hasDb ? 'block' : 'none';
                 // adminOptionContainer is a block
-                document.getElementById('adminOptionContainer').style.display = hasDb ? 'block' : 'none';
+                document.getElementById('adminOptionContainer').style.display = hasAdmin ? 'block' : 'none';
 
                 // Show Horilla Auth Note if applicable and update with repo-specific password
                 const isHorilla = repo.url.includes('horilla');
@@ -2220,15 +2221,14 @@ echo "Done."
                     document.getElementById('initDbContainer').style.display = hasDb ? 'flex' : 'none';
                 }
                 if (document.getElementById('createSuperContainer')) {
-                    document.getElementById('createSuperContainer').style.display = hasDb ? 'flex' : 'none';
-                }
-                if (document.getElementById('createSuperContainer')) {
-                    document.getElementById('createSuperContainer').style.display = hasDb ? 'flex' : 'none';
+                    document.getElementById('createSuperContainer').style.display = hasAdmin ? 'flex' : 'none';
                 }
 
                 // Uncheck if hidden
                 if (!hasDb) {
                     document.getElementById('initDb').checked = false;
+                }
+                if (!hasAdmin) {
                     document.getElementById('createSuper').checked = false;
                 }
 
