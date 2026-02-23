@@ -120,5 +120,5 @@ def test_bookwyrm_selection(page_on_index: Page):
     # Check Setup Script
     setup_code = page_on_index.locator("#setupCode").inner_text()
     assert "python3 manage.py init_db" in setup_code
-    assert "pip install -r requirements.txt" in setup_code
+    assert "pip install --group main" in setup_code
     assert "DOMAIN=localhost:8000" in setup_code

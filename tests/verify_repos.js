@@ -139,7 +139,8 @@ REPO_LIST.forEach(cat => {
             repoDemoData,
             params.initDb,
             repo.dependencies,
-            "" // customInstallCmd (empty for defaults)
+            "", // customInstallCmd (empty for defaults)
+            "local"
         );
 
         // --- ASSERTIONS ---

@@ -233,9 +233,18 @@
 
                 <div class="form-group">
                     <label>Server Configuration</label>
-                    <div class="form-group">
-                        <label for="serverPort">Development Server Port</label>
-                        <input type="number" id="serverPort" value="8000" placeholder="8000">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="form-group">
+                            <label for="serverPort">Main Port</label>
+                            <input type="number" id="serverPort" value="8000" placeholder="8000">
+                        </div>
+                        <div class="form-group">
+                            <label for="deploymentEnv">Deployment Environment</label>
+                            <select id="deploymentEnv">
+                                <option value="local">Local Development Server</option>
+                                <option value="nginx">Nginx HTTP Server (Production)</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
@@ -1283,7 +1292,7 @@ npm start</pre>
 
 
 
-        function generateSetupScript(repoUrl, repoName, projectPath, venvName, dbType, framework, loadDemo, createSuper, adminUser, adminEmail, adminPass, serverPort, cmdAdmin, cmdPostInstall, preInstall, customReqPath, runServer, demoDataCmd, initDb, dependencies, customInstallCmd) {
+        function generateSetupScript(repoUrl, repoName, projectPath, venvName, dbType, framework, loadDemo, createSuper, adminUser, adminEmail, adminPass, serverPort, cmdAdmin, cmdPostInstall, preInstall, customReqPath, runServer, demoDataCmd, initDb, dependencies, customInstallCmd, deploymentEnv) {
             return `#!/bin/bash
 # ${repoName} - Development Setup Script
 # Generated: $(date)
@@ -1791,7 +1800,29 @@ echo ""
 echo "Setup Complete!"
 ${runServer ? `
 echo "Launching Server..."
-"$SCRIPT_DIR/dev-server.sh"` : `echo "Run ./dev-server.sh to start."`}
+${deploymentEnv === 'nginx' ? `
+echo "Configuring NGINX Reverse Proxy..."
+sudo apt update && sudo apt install -y nginx
+cat << 'EOF' > "$PROJECT_PATH/nginx.conf"
+server {
+    listen 80;
+    server_name localhost;
+
+    location / {
+        proxy_pass http://localhost:${serverPort};
+        proxy_set_header Host \\$host;
+        proxy_set_header X-Real-IP \\$remote_addr;
+        proxy_set_header X-Forwarded-For \\$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \\$scheme;
+    }
+}
+EOF
+echo "NGINX configuration created at $PROJECT_PATH/nginx.conf."
+echo "Please link it to /etc/nginx/sites-enabled/ to activate."
+"$SCRIPT_DIR/dev-server.sh" &
+sleep 2
+sudo systemctl restart nginx
+` : `"$SCRIPT_DIR/dev-server.sh"`}` : `echo "Run ./dev-server.sh to start."`}
 `;
         }
 
@@ -2265,6 +2296,7 @@ echo "Done."
             const adminEmail = document.getElementById('adminEmail').value;
             const adminPass = document.getElementById('adminPass').value;
             const serverPort = document.getElementById('serverPort').value || 8000;
+            const deploymentEnv = document.getElementById('deploymentEnv').value || "local";
             let cmdAdmin = document.getElementById('cmdAdmin').value;
             const cmdPostInstall = document.getElementById('cmdPostInstall').value;
             const customReqPath = document.getElementById('customReqPath').value;
@@ -2313,7 +2345,7 @@ echo "Done."
             // Extract repo name from URL
             const repoName = repoUrl.split('/').pop().replace('.git', '') || 'my-project';
 
-            const setupContent = generateSetupScript(repoUrl, repoName, projectPath, venvName, dbType, framework, loadDemo, createSuper, adminUser, adminEmail, adminPass, serverPort, cmdAdmin, cmdPostInstall, preInstall, customReqPath, runServer, demoDataCmd, initDb, dependencies, customInstallCmd);
+            const setupContent = generateSetupScript(repoUrl, repoName, projectPath, venvName, dbType, framework, loadDemo, createSuper, adminUser, adminEmail, adminPass, serverPort, cmdAdmin, cmdPostInstall, preInstall, customReqPath, runServer, demoDataCmd, initDb, dependencies, customInstallCmd, deploymentEnv);
             const freshContent = generateFreshDbScript(repoName, projectPath, venvName, dbType, framework, loadDemo, createSuper, adminUser, adminEmail, adminPass, serverPort, cmdAdmin);
             const serverContent = generateServerScript(repoName, projectPath, venvName, framework, serverPort, runServerCmd);
             const envContent = generateEnvFile(repoName, dbType, adminPass, serverPort, repo);

@@ -329,12 +329,12 @@ const REPO_LIST = [
                 stars: "3.5k+",
                 setupCommands: {
                     preInstall: "cp .env.example .env 2>/dev/null || true && echo \"\nSECRET_KEY=dev-secret\nDOMAIN=localhost:8000\" >> .env",
-                    postInstall: "python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py init_db",
+                    postInstall: "python3 manage.py makemigrations || true\n    python3 manage.py migrate || true\n    python3 manage.py init_db || true",
                     adminCreate: "python3 manage.py createsuperuser --noinput --username __USER__ --email __EMAIL__"
                 },
                 dependencies: {
                     mode: 'pip',
-                    files: ['requirements.txt']
+                    command: 'python3 -m pip install -U "pip>=25.1.0" && pip install --group main'
                 },
                 features: {
                     hasDb: true,

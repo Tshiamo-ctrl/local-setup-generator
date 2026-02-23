@@ -13,7 +13,7 @@ function createWindow() {
         frame: false,
         titleBarStyle: 'hidden',
         transparent: true,
-        icon: nativeImage.createFromPath(path.join(__dirname, 'icon.png')),
+        icon: path.join(__dirname, 'icon.png'),
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true,
@@ -25,7 +25,14 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+    app.setName('Horilla Setup Generator');
     createWindow();
+
+    // Explicitly set the icon again after creation (Helps Linux X11/Wayland WMs dock correctly)
+    const iconPath = path.join(__dirname, 'icon.png');
+    if (fs.existsSync(iconPath)) {
+        mainWindow.setIcon(iconPath);
+    }
 
     app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow();
