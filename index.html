@@ -726,8 +726,7 @@
 
         <div class="form-group">
             <label for="archiveNameInput">Archive Name</label>
-            <input type="text" id="archiveNameInput" value="workspace-backup.tar.gz"
-                placeholder="project-backup.tar.gz">
+            <input type="text" id="archiveNameInput" value="workspace-backup.tar" placeholder="project-backup.tar">
         </div>
 
         <div class="alert alert-info" style="margin-bottom: 0; padding: 12px; display: flex; align-items: center;">
@@ -868,7 +867,7 @@ npm start</pre>
             }
 
             const date = new Date().toISOString().split('T')[0];
-            document.getElementById('archiveNameInput').value = `workspace-backup-${date}.tar.gz`;
+            document.getElementById('archiveNameInput').value = `workspace-backup-${date}.tar`;
 
             // Check for Save File Picker support
             const hasSavePicker = 'showSaveFilePicker' in window;
@@ -897,11 +896,11 @@ npm start</pre>
             try {
                 // Get name from modal
                 let archiveName = document.getElementById('archiveNameInput').value.trim();
-                if (!archiveName) archiveName = "workspace-backup.tar.gz";
+                if (!archiveName) archiveName = "workspace-backup.tar";
 
                 // Ensure extension
-                if (!archiveName.endsWith('.tar.gz') && !archiveName.endsWith('.tgz')) {
-                    archiveName += '.tar.gz';
+                if (!archiveName.endsWith('.tar')) {
+                    archiveName += '.tar';
                 }
 
                 // --- DESKTOP MODE (ELECTRON) ---
@@ -916,7 +915,7 @@ npm start</pre>
                     // Save Dialog
                     const saveResult = await window.electron.showSaveDialog({
                         defaultPath: archiveName,
-                        filters: [{ name: 'GZIP Archive', extensions: ['tar.gz', 'tgz'] }]
+                        filters: [{ name: 'TAR Archive', extensions: ['tar'] }]
                     });
 
                     if (saveResult.canceled) {
@@ -967,8 +966,8 @@ npm start</pre>
                         const handle = await window.showSaveFilePicker({
                             suggestedName: archiveName,
                             types: [{
-                                description: 'GZIP Archive',
-                                accept: { 'application/gzip': ['.tar.gz', '.tgz'] },
+                                description: 'TAR Archive',
+                                accept: { 'application/x-tar': ['.tar'] },
                             }],
                         });
                         const writable = await handle.createWritable();
@@ -982,7 +981,7 @@ npm start</pre>
                     }
                 } else {
                     // Fallback for Firefox/Safari
-                    const blob = new Blob([tarData], { type: 'application/gzip' });
+                    const blob = new Blob([tarData], { type: 'application/x-tar' });
                     const url = URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;

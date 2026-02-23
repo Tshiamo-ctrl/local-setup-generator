@@ -645,8 +645,8 @@ ipcMain.handle('archive-workspace', async (event, { sourceDir, destPath }) => {
         }
 
         return new Promise((resolve) => {
-            // tar -czf dest.tar.gz -C sourceDir . (excludes...)
-            const args = ['-czf', destPath, '-C', sourceDir, ...exclusions, '.'];
+            // tar -cf dest.tar -C sourceDir . (excludes...)
+            const args = ['-cf', destPath, '-C', sourceDir, ...exclusions, '.'];
 
             console.log(`[ARCHIVE] Running: tar ${args.join(' ')}`);
 
