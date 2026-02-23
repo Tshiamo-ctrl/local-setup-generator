@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, nativeImage } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const { spawn } = require('child_process');
@@ -10,6 +10,10 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width: 1200,
         height: 800,
+        frame: false,
+        titleBarStyle: 'hidden',
+        transparent: true,
+        icon: nativeImage.createFromPath(path.join(__dirname, 'icon.png')),
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true,
@@ -36,7 +40,8 @@ app.on('window-all-closed', function () {
 
 // 1. Select Directory
 ipcMain.handle('select-directory', async () => {
-    const result = await dialog.showOpenDialog(mainWindow, {
+    // Detach mainWindow to prevent Linux WM z-order bugs with frameless windows
+    const result = await dialog.showOpenDialog({
         properties: ['openDirectory']
     });
     return result.canceled ? null : result.filePaths[0];
@@ -677,9 +682,29 @@ ipcMain.handle('archive-workspace', async (event, { sourceDir, destPath }) => {
 
 // 6. Show Save Dialog
 ipcMain.handle('show-save-dialog', async (event, { defaultPath, filters }) => {
-    const result = await dialog.showSaveDialog(mainWindow, {
+    // Detach mainWindow to prevent Linux WM z-order bugs
+    const result = await dialog.showSaveDialog({
         defaultPath,
         filters
     });
     return result;
+});
+
+// Window Controls
+ipcMain.handle('window-minimize', () => {
+    if (mainWindow) mainWindow.minimize();
+});
+
+ipcMain.handle('window-maximize', () => {
+    if (mainWindow) {
+        if (mainWindow.isMaximized()) {
+            mainWindow.unmaximize();
+        } else {
+            mainWindow.maximize();
+        }
+    }
+});
+
+ipcMain.handle('window-close', () => {
+    if (mainWindow) mainWindow.close();
 });

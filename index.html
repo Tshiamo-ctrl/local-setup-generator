@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Local Setup Generator | Automate Your Python Workspace</title>
+    <title>Python Local Setup Generator | Automate Your Python Workspace</title>
     <meta name="description"
         content="Generate production-ready setup and maintenance scripts for Python/Django projects. Automate database wipes, migrations, and environment configuration locally.">
     <link rel="stylesheet" href="style.css">
@@ -18,7 +18,7 @@
              ========================================= -->
         <header>
             <div>
-                <h1 id="mainTitle">Local Setup Generator</h1>
+                <h1 id="mainTitle">Python Local Setup Generator</h1>
                 <p class="header-subtitle" id="mainSubtitle">Generate automated setup scripts for any Python web project
                 </p>
                 <div
@@ -49,6 +49,28 @@
                     title="Toggle Theme">
                     <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="window-controls">
+                <button onclick="window.electron.minimize()" aria-label="Minimize">
+                    <svg width="12" height="12" viewBox="0 0 12 12">
+                        <line x1="1" y1="6" x2="11" y2="6" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round"></line>
+                    </svg>
+                </button>
+                <button onclick="window.electron.maximize()" aria-label="Maximize">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="1.5" y="1.5" width="9" height="9" rx="1"></rect>
+                    </svg>
+                </button>
+                <button class="close-btn" onclick="window.electron.close()" aria-label="Close">
+                    <svg width="12" height="12" viewBox="0 0 12 12">
+                        <line x1="2" y1="2" x2="10" y2="10" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round"></line>
+                        <line x1="10" y1="2" x2="2" y2="10" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round"></line>
                     </svg>
                 </button>
             </div>
@@ -538,7 +560,7 @@
 
                 <div id="setup" class="tab-content active">
                     <p style="font-size: 14px; color: var(--muted-foreground); margin-bottom: 20px;">Initialize your
-                        complete Horilla development environment.</p>
+                        complete Python development environment.</p>
                     <div class="code-block">
                         <div class="code-actions">
                             <button class="btn-secondary" onclick="copyCode('setupCode')">Copy</button>
@@ -753,8 +775,8 @@
             <div class="code-block" style="margin: 0;">
                 <button class="btn-secondary" onclick="copyCode('cmdLinux')"
                     style="position: absolute; right: 8px; top: 8px;">Copy</button>
-                <pre id="cmdLinux" style="white-space: pre-wrap;">git clone https://github.com/Tshiamo-ctrl/python-setup-generator.git horilla-setup
-cd horilla-setup
+                <pre id="cmdLinux" style="white-space: pre-wrap;">git clone https://github.com/Tshiamo-ctrl/python-setup-generator.git python-setup
+cd python-setup
 npm install
 npm start</pre>
             </div>
@@ -764,8 +786,8 @@ npm start</pre>
             <div class="code-block" style="margin: 0;">
                 <button class="btn-secondary" onclick="copyCode('cmdMac')"
                     style="position: absolute; right: 8px; top: 8px;">Copy</button>
-                <pre id="cmdMac" style="white-space: pre-wrap;">git clone https://github.com/Tshiamo-ctrl/python-setup-generator.git horilla-setup
-cd horilla-setup
+                <pre id="cmdMac" style="white-space: pre-wrap;">git clone https://github.com/Tshiamo-ctrl/python-setup-generator.git python-setup
+cd python-setup
 npm install
 npm start</pre>
             </div>
@@ -775,8 +797,8 @@ npm start</pre>
             <div class="code-block" style="margin: 0;">
                 <button class="btn-secondary" onclick="copyCode('cmdWin')"
                     style="position: absolute; right: 8px; top: 8px;">Copy</button>
-                <pre id="cmdWin" style="white-space: pre-wrap;">git clone https://github.com/Tshiamo-ctrl/python-setup-generator.git horilla-setup
-cd horilla-setup
+                <pre id="cmdWin" style="white-space: pre-wrap;">git clone https://github.com/Tshiamo-ctrl/python-setup-generator.git python-setup
+cd python-setup
 npm install
 npm start</pre>
             </div>
@@ -1953,7 +1975,7 @@ echo "💡 To activate manually: source $VENV_NAME/bin/activate"
         function generateClearScript(projectPath, venvName, dbType, mode = 'workspace') {
             let script = `#!/bin/bash
 
-# Local Setup Generator - ${mode === 'repo' ? 'Clear Repository Only' : mode === 'env' ? 'Clear Environment Only' : 'Clean Workspace Script'}
+# Python Local Setup Generator - ${mode === 'repo' ? 'Clear Repository Only' : mode === 'env' ? 'Clear Environment Only' : 'Clean Workspace Script'}
 # WARNING: This will DELETE ${mode === 'repo' ? 'your project repository folder' : mode === 'env' ? 'your virtual environment and database' : 'your project, virtual environment, and database'}.
 
 PROJECT_PATH="${projectPath}"
@@ -2647,7 +2669,7 @@ DATABASE_URL=sqlite:///db.sqlite3
         let currentTourStep = 0;
         const tourSteps = [
             {
-                title: "Welcome to Local Setup Generator! 👋",
+                title: "Welcome to Python Local Setup Generator! 👋",
                 content: "This tool helps you generate automated setup scripts for Python web projects. Let's take a quick tour to show you how to use it effectively and avoid common mistakes."
             },
             {

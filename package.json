@@ -1,7 +1,7 @@
 {
-    "name": "horilla-setup-generator-desktop",
+    "name": "python-setup-generator-desktop",
     "version": "1.0.0",
-    "description": "Desktop wrapper for Horilla Setup Generator",
+    "description": "Desktop wrapper for Python Local Setup Generator",
     "main": "main.js",
     "scripts": {
         "start": "electron . --no-sandbox"

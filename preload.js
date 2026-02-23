@@ -8,5 +8,8 @@ contextBridge.exposeInMainWorld('electron', {
     runResetTerminal: (directory) => ipcRenderer.invoke('run-reset-terminal', { directory }),
     readDirectoryRecursive: (directory) => ipcRenderer.invoke('read-directory-recursive', { directory }),
     showSaveDialog: (options) => ipcRenderer.invoke('show-save-dialog', options),
-    archiveWorkspace: (sourceDir, destPath) => ipcRenderer.invoke('archive-workspace', { sourceDir, destPath })
+    archiveWorkspace: (sourceDir, destPath) => ipcRenderer.invoke('archive-workspace', { sourceDir, destPath }),
+    minimize: () => ipcRenderer.invoke('window-minimize'),
+    maximize: () => ipcRenderer.invoke('window-maximize'),
+    close: () => ipcRenderer.invoke('window-close')
 });
