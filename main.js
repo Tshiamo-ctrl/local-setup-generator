@@ -24,14 +24,23 @@ function createWindow() {
     mainWindow.loadFile('index.html');
 }
 
+// Set app identity BEFORE whenReady so the WM_CLASS is stamped correctly on Linux
+app.setName('Local Setup Generator');
+if (process.platform === 'linux') {
+    // CRITICAL: For unpackaged Electron apps (run via `electron .`), the X11 WM_CLASS
+    // defaults to "electron". The ONLY way to override this is via the Chromium --class flag.
+    // This MUST match StartupWMClass in the .desktop file for taskbar icon grouping.
+    app.commandLine.appendSwitch('class', 'local-setup-generator');
+    app.setAppUserModelId('local-setup-generator');
+}
+
 app.whenReady().then(() => {
-    app.setName('Python Local Setup Generator (LSG)');
     createWindow();
 
-    // Explicitly set the icon again after creation (Helps Linux X11/Wayland WMs dock correctly)
+    // Re-apply icon after window creation for X11/Wayland compositors
     const iconPath = path.join(__dirname, 'icon.png');
     if (fs.existsSync(iconPath)) {
-        mainWindow.setIcon(iconPath);
+        mainWindow.setIcon(nativeImage.createFromPath(iconPath));
     }
 
     app.on('activate', function () {

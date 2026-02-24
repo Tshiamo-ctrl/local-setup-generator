@@ -5,9 +5,9 @@ import os
 
 
 def test_title_and_rendering(page_on_index: Page):
-    expect(page_on_index).to_have_title("Python Local Setup Generator | Automate Your Python Workspace")
+    expect(page_on_index).to_have_title("Local Setup Generator | Automate Your Python Workspace")
     # Initial static title matching the new H1
-    expect(page_on_index.locator("h1#mainTitle")).to_contain_text("Python Local Setup Generator")
+    expect(page_on_index.locator("h1#mainTitle")).to_contain_text("Local Setup Generator")
     # Check for the local disclaimer
     expect(page_on_index.locator("text=Local Generator Only")).to_be_visible()
 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python Local Setup Generator | Automate Your Python Workspace</title>
+    <title>Local Setup Generator | Automate Your Python Workspace</title>
     <meta name="description"
         content="Generate production-ready setup and maintenance scripts for Python/Django projects. Automate database wipes, migrations, and environment configuration locally.">
     <link rel="stylesheet" href="style.css">
@@ -25,7 +25,7 @@
                 </svg>
             </div>
             <div>
-                <h1 id="mainTitle">Python Local Setup Generator</h1>
+                <h1 id="mainTitle">Local Setup Generator</h1>
                 <p class="header-subtitle" id="mainSubtitle">Generate automated setup scripts for any Python web project
                 </p>
                 <div
@@ -182,7 +182,7 @@
                     </div>
 
                     <div id="postgresFields" style="display: none;">
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="form-row">
                             <div class="form-group">
                                 <label for="dbName">DB Name</label>
                                 <input type="text" id="dbName" value="app_db">
@@ -198,7 +198,7 @@
                             <input type="password" id="dbPass" value="dev_password_123">
                         </div>
 
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="form-row">
                             <div class="form-group">
                                 <label for="dbHost">Host</label>
                                 <input type="text" id="dbHost" value="localhost">
@@ -233,7 +233,7 @@
 
                 <div class="form-group">
                     <label>Server Configuration</label>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="form-row">
                         <div class="form-group">
                             <label for="serverPort">Main Port</label>
                             <input type="number" id="serverPort" value="8000" placeholder="8000">
@@ -273,7 +273,7 @@
 
                 <div id="adminOptionContainer">
                     <div id="adminFields">
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="form-row">
                             <div class="form-group">
                                 <label for="adminUser">Admin Username</label>
                                 <input type="text" id="adminUser" value="admin">
@@ -2012,7 +2012,7 @@ echo "💡 To activate manually: source $VENV_NAME/bin/activate"
         function generateClearScript(projectPath, venvName, dbType, mode = 'workspace') {
             let script = `#!/bin/bash
 
-# Python Local Setup Generator - ${mode === 'repo' ? 'Clear Repository Only' : mode === 'env' ? 'Clear Environment Only' : 'Clean Workspace Script'}
+# Local Setup Generator - ${mode === 'repo' ? 'Clear Repository Only' : mode === 'env' ? 'Clear Environment Only' : 'Clean Workspace Script'}
 # WARNING: This will DELETE ${mode === 'repo' ? 'your project repository folder' : mode === 'env' ? 'your virtual environment and database' : 'your project, virtual environment, and database'}.
 
 PROJECT_PATH="${projectPath}"
@@ -2707,7 +2707,7 @@ DATABASE_URL=sqlite:///db.sqlite3
         let currentTourStep = 0;
         const tourSteps = [
             {
-                title: "Welcome to Python Local Setup Generator! 👋",
+                title: "Welcome to Local Setup Generator! 👋",
                 content: "This tool helps you generate automated setup scripts for Python web projects. Let's take a quick tour to show you how to use it effectively and avoid common mistakes."
             },
             {

@@ -10,7 +10,7 @@ LSG is a powerful local tool for quickly generating setup and initialization scr
 
 ## Installation
 
-You can now use `lsg-install.sh` to install LSG as a native desktop application on your Linux system.
+Use `lsg-install.sh` to install LSG as a native desktop application on your Linux system.
 
 1. Clone or navigate to this repository directory.
 2. Run the installer script:
@@ -18,7 +18,17 @@ You can now use `lsg-install.sh` to install LSG as a native desktop application 
    ./lsg-install.sh
    ```
 3. The script will install NPM dependencies if missing and create a desktop shortcut.
-4. Open your applications menu and launch **LSG**.
+4. Open your applications menu and launch **Local Setup Generator**.
+
+## Uninstallation
+
+To remove the desktop shortcut from your application menu:
+
+```bash
+./lsg-uninstall.sh
+```
+
+This removes only the menu entry. To fully remove LSG, delete the project folder afterwards.
 
 ## Testing Notes
 If testing the Bookwyrm target environment, utilize the built-in terminal launchers natively available within the Desktop application, as running this application locally bypasses potential sandbox restrictions sometimes found when running standard `npm start` environments inside heavily constrained terminals.

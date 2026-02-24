@@ -95,7 +95,7 @@ h4 {
 }
 
 h1 {
-    font-size: 3.5rem;
+    font-size: clamp(1.5rem, 5vw, 3.5rem);
     font-weight: 800;
     line-height: 1.1;
     margin-bottom: 0.5rem;
@@ -233,6 +233,7 @@ button,
 
 .button-group {
     display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
     margin-top: 2rem;
 }
@@ -738,6 +739,11 @@ header {
     -webkit-app-region: drag;
     position: relative;
     user-select: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
 }
 
 .drag-handle {
@@ -843,4 +849,191 @@ body:hover::-webkit-scrollbar-thumb,
 
 ::-webkit-scrollbar-thumb:hover {
     background-color: hsl(var(--muted-foreground) / 0.6) !important;
+}
+
+/* =========================================
+   8. Responsive Utility Classes
+   ========================================= */
+
+/* Two-column form row that collapses on narrow screens */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+/* =========================================
+   9. Responsive Breakpoints
+   ========================================= */
+
+/* --- Tablet / Split-Screen (≤768px) --- */
+@media (max-width: 768px) {
+    body {
+        padding: 40px 12px;
+    }
+
+    .header-subtitle {
+        font-size: 1rem;
+    }
+
+    header {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .panel {
+        padding: 1.25rem;
+    }
+
+    .panel h2 {
+        font-size: 1.25rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-actions-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .danger-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .button-group button,
+    .button-group .btn {
+        width: 100%;
+    }
+
+    .code-block {
+        padding: 1rem;
+    }
+
+    .code-block pre {
+        font-size: 0.75rem;
+        max-height: 350px;
+    }
+
+    .results-container {
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .carousel-nav {
+        width: 36px;
+        height: 36px;
+    }
+
+    .modal {
+        padding: 20px;
+    }
+
+    .action-card {
+        min-height: 80px;
+        padding: 10px;
+    }
+
+    .platform-toggle {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --- Small Window (≤480px) --- */
+@media (max-width: 480px) {
+    body {
+        padding: 36px 8px;
+    }
+
+    .panel {
+        padding: 1rem;
+    }
+
+    .panel h2 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+
+    label {
+        font-size: 0.7rem;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="number"],
+    select {
+        padding: 0.6rem 0.75rem;
+        font-size: 0.8rem;
+    }
+
+    button,
+    .btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .code-block {
+        padding: 0.75rem;
+        border-radius: 8px;
+    }
+
+    .code-block pre {
+        font-size: 0.7rem;
+        max-height: 300px;
+    }
+
+    .carousel-nav {
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+    }
+
+    .flow-item {
+        font-size: 0.8rem;
+    }
+
+    .feature-list li {
+        font-size: 0.8rem;
+    }
+
+    .tip-box {
+        font-size: 0.8rem;
+        padding: 0.75rem;
+    }
+
+    .summary-item div {
+        font-size: 0.75rem;
+        padding: 6px 8px;
+    }
+
+    .action-card h4 {
+        font-size: 12px;
+    }
+
+    .action-card p {
+        font-size: 10px;
+    }
+
+    .alert {
+        padding: 1rem;
+        font-size: 0.8rem;
+    }
+
+    .divider {
+        margin: 1rem 0;
+    }
+
+    .window-controls {
+        top: 10px;
+        right: 10px;
+        gap: 4px;
+    }
 }

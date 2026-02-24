@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configuration
-APP_NAME="LSG"
+APP_NAME="Local Setup Generator"
 DESKTOP_FILE_NAME="lsg.desktop"
 DESKTOP_DIR="$HOME/.local/share/applications"
 DESKTOP_FILE_PATH="$DESKTOP_DIR/$DESKTOP_FILE_NAME"
@@ -43,7 +43,7 @@ Terminal=false
 Categories=Development;Utility;
 Keywords=python;django;fastapi;flask;generator;
 StartupNotify=true
-StartupWMClass=python-setup-generator-desktop
+StartupWMClass=local-setup-generator
 EOF
 
 # Make it executable

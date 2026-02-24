@@ -1,10 +1,11 @@
 {
-    "name": "python-setup-generator-desktop",
+    "name": "local-setup-generator",
+    "productName": "Local Setup Generator",
     "version": "1.0.0",
-    "description": "Desktop wrapper for Python Local Setup Generator",
+    "description": "Local Setup Generator – generate automated setup scripts for Python web projects",
     "main": "main.js",
     "scripts": {
-        "start": "electron . --no-sandbox"
+        "start": "electron . --no-sandbox --class=local-setup-generator"
     },
     "keywords": [],
     "author": "",
