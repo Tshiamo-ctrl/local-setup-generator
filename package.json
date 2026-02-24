@@ -5,7 +5,7 @@
     "description": "Local Setup Generator – generate automated setup scripts for Python web projects",
     "main": "main.js",
     "scripts": {
-        "start": "electron . --no-sandbox --class=local-setup-generator"
+        "start": "electron --no-sandbox --class=local-setup-generator ."
     },
     "keywords": [],
     "author": "",
