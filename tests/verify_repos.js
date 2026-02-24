@@ -10,46 +10,19 @@ vm.createContext(reposSandbox);
 vm.runInContext(reposContent + "; this.REPO_LIST = REPO_LIST;", reposSandbox);
 const REPO_LIST = reposSandbox.REPO_LIST;
 
-// 2. Load index.html and extract generateSetupScript
+// 2. Load index.html and extract scripts
 const indexContent = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
 
-// Extract the function body using simple regex (since it's a known format)
-// We look for "function generateSetupScript(...) {" and the matching closing brace is complex to regex,
-// so we'll just extract the whole script block if possible, or copy the function manually if needed.
-// Actually, let's just create a mock environment and eval the relevant part of index.html code.
-// Better yet, I'll extract the function string.
+const startIndex = indexContent.indexOf('function generateSetupScript');
+const openScript = indexContent.lastIndexOf('<script>', startIndex);
+const closeScript = indexContent.indexOf('</script>', startIndex);
 
-function extractFunction(source, funcName) {
-    const start = source.indexOf(`function ${funcName}`);
-    if (start === -1) return null;
-
-    let braceCount = 0;
-    let end = -1;
-    let foundBrace = false;
-
-    for (let i = start; i < source.length; i++) {
-        if (source[i] === '{') {
-            braceCount++;
-            foundBrace = true;
-        } else if (source[i] === '}') {
-            braceCount--;
-        }
-
-        if (foundBrace && braceCount === 0) {
-            end = i + 1;
-            break;
-        }
-    }
-    return source.substring(start, end);
-}
-
-const generatorFnCode = extractFunction(indexContent, 'generateSetupScript');
-const generateEnvFileCode = extractFunction(indexContent, 'generateEnvFile');
-
-if (!generatorFnCode) {
-    console.error("Could not extract generateSetupScript function from index.html");
+if (startIndex === -1 || openScript === -1 || closeScript === -1) {
+    console.error("Could not extract script section from index.html");
     process.exit(1);
 }
+
+const scriptContent = indexContent.substring(openScript + 8, closeScript);
 
 // Create a sandbox to run the generator
 const sandbox = {
@@ -59,13 +32,28 @@ const sandbox = {
     REPO_LIST: REPO_LIST,
     document: {
         getElementById: (id) => {
-            return { value: "mock_value", checked: true };
-        }
+            return { value: "mock_value", checked: true, style: {} };
+        },
+        querySelectorAll: () => [],
+        querySelector: () => null,
+        documentElement: { classList: { add: () => { }, remove: () => { }, contains: () => false } }
+    },
+    window: {
+        addEventListener: () => { }
+    },
+    localStorage: {
+        getItem: () => null,
+        setItem: () => { }
     }
 };
 vm.createContext(sandbox);
-vm.runInContext(generatorFnCode, sandbox);
-vm.runInContext(generateEnvFileCode, sandbox);
+
+try {
+    vm.runInContext(scriptContent, sandbox);
+} catch (e) {
+    console.error("Error evaluating script block:", e);
+    process.exit(1);
+}
 
 const generateSetupScript = sandbox.generateSetupScript;
 

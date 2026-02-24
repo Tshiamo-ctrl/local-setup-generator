@@ -1738,8 +1738,8 @@ pip install psycopg2-binary || echo "Warning: psycopg2-binary install failed."
 ` : ''}
 
 # --- Environment ---
-echo "Creating .env file..."
-cat > .env << 'EOF'
+echo "Creating/Updating .env file..."
+cat >> .env << 'EOF'
 ${generateEnvFile(repoName, dbType, adminPass, serverPort)}
 EOF
 

@@ -1,2 +1,10 @@
 node_modules/
 venv/
+test_eval_venv/
+test-bw-venv/
+test-bookwyrm-env/
+test-bw/
+archives/
+*.log
+tests/__pycache__/
+__pycache__/

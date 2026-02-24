@@ -18,12 +18,15 @@ const mockDialog = {
 const mockApp = {
     whenReady: () => Promise.resolve(),
     on: () => { },
-    quit: () => { }
+    quit: () => { },
+    setName: () => { },
+    setAppUserModelId: () => { }
 };
 
 const mockBrowserWindow = class {
     constructor() { }
     loadFile() { }
+    setIcon() { }
 };
 mockBrowserWindow.getAllWindows = () => [];
 
@@ -181,6 +184,20 @@ async function runTests() {
         if (process.platform !== 'linux') {
             console.log("NOTE: This test might fail on non-Linux if tar is missing.");
         }
+    }
+
+    // TEST 5: Verify Icon Path is properly generated
+    total++;
+    console.log("\n[TEST 5] Main Process Icon Path generation");
+    // While we can't easily test `setIcon` via IPC mock because it's called on BrowserWindow creation,
+    // we can parse main.js directly to ensure the path joining logic exists for the logo.
+    const mainJsContent = fs.readFileSync(path.join(__dirname, '../main.js'), 'utf8');
+    if (mainJsContent.includes("icon: path.join(__dirname, 'icon.png')") &&
+        mainJsContent.includes("mainWindow.setIcon(iconPath)")) {
+        console.log("Assertion PASSED: Icon path explicitly set for taskbar/WM");
+        passed++;
+    } else {
+        console.log("Assertion FAILED: Icon logic missing or altered");
     }
 
     // CLEANUP

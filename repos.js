@@ -334,7 +334,7 @@ const REPO_LIST = [
                 },
                 dependencies: {
                     mode: 'pip',
-                    command: 'python3 -m pip install -U "pip>=25.1.0" && pip install --group main'
+                    command: "python3 -m pip install -U 'pip>=25.1.0' && pip install --group main"
                 },
                 features: {
                     hasDb: true,
@@ -1126,7 +1126,7 @@ const REPO_LIST = [
                 }
             },
             {
-                name: "commit",
+                name: "commit (AI Commit Message Generator)",
                 url: "https://github.com/guilatrova/commit.git",
                 description: "AI commit message generator",
                 framework: "generic",
@@ -1137,7 +1137,7 @@ const REPO_LIST = [
                 }
             },
             {
-                name: "fix",
+                name: "fix (Test Fixtures Management)",
                 url: "https://pypi.org/project/fix/",
                 description: "Test fixtures management",
                 framework: "generic",

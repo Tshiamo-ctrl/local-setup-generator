@@ -25,7 +25,7 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
-    app.setName('Horilla Setup Generator');
+    app.setName('Python Local Setup Generator (LSG)');
     createWindow();
 
     // Explicitly set the icon again after creation (Helps Linux X11/Wayland WMs dock correctly)
