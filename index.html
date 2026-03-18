@@ -256,12 +256,12 @@
                     <div class="checkbox-group">
                         <div class="checkbox-item" id="initDbContainer"
                             onclick="document.getElementById('initDb').click()">
-                            <input type="checkbox" id="initDb" checked onclick="event.stopPropagation()">
+                            <input type="checkbox" id="initDb" checked onchange="resolveMutualExclusivity('initDb')" onclick="event.stopPropagation()">
                             <span>Initialize Database</span>
                         </div>
                         <div class="checkbox-item" id="createSuperContainer"
                             onclick="document.getElementById('createSuper').click()">
-                            <input type="checkbox" id="createSuper" checked onclick="event.stopPropagation()">
+                            <input type="checkbox" id="createSuper" checked onchange="resolveMutualExclusivity('createSuper')" onclick="event.stopPropagation()">
                             <span>Create Admin User</span>
                         </div>
                         <div class="checkbox-item" onclick="document.getElementById('runServer').click()">
@@ -2199,8 +2199,8 @@ echo "Done."
                 // Project Path: . (Install directly in the current directory)
                 document.getElementById('projectPath').value = '.';
 
-                // Venv Name: clean-nameVENV
-                document.getElementById('venvName').value = `${cleanName}VENV`;
+                // Venv Name default changed to venv
+                document.getElementById('venvName').value = `venv`;
 
                 // DB Name default: clean_name_db
                 document.getElementById('dbName').value = cleanName.replace(/-/g, '_') + "_db";
@@ -2278,9 +2278,16 @@ echo "Done."
         }
 
         function resolveMutualExclusivity(source) {
-            // Deprecated: Mutual exclusivity logic simplified as Demo Data is now manual only.
-            // Keeping function stub if needed for future logic, or removing entirely.
-            // For now, removing the logic that caused conflicts.
+            const initDb = document.getElementById('initDb');
+            const createSuper = document.getElementById('createSuper');
+            
+            if (!initDb || !createSuper) return;
+
+            if (source === 'initDb' && initDb.checked) {
+                createSuper.checked = false;
+            } else if (source === 'createSuper' && createSuper.checked) {
+                initDb.checked = false;
+            }
         }
 
         function generateScripts() {

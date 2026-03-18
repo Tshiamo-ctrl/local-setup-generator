@@ -22,11 +22,11 @@ const REPO_LIST = [
                 complexity: "Advanced",
                 stars: "1.2k+",
                 setupCommands: {
-                    preInstall: "cp .env.dist .env 2>/dev/null || cp .env.example .env 2>/dev/null || true",
-                    postInstall: "python3 manage.py makemigrations && python3 manage.py migrate && echo \"\" && echo \"IMPORTANT: To initialize the database or load demo data, use the web UI.\"",
-                    adminCreate: "python3 manage.py createhorillauser --first_name Admin --last_name Admin --username __USER__ --password __PASS__ --email __EMAIL__ --phone 1234567890",
-                    loadDemoCmd: "python3 manage.py loaddata initial_data"
-                },
+                preInstall: "cp .env.dist .env 2>/dev/null || cp .env.example .env 2>/dev/null || true\n# Fix AHRM check_linkedin bug causing migrate to fail\nsed -i 's/.*check_linkedin.*/#&/' recruitment/urls.py 2>/dev/null || true",
+                postInstall: "python3 manage.py makemigrations && python3 manage.py migrate\n\necho \"Initializing AHRM Database headless...\"\npython3 manage.py shell -c '\nfrom django.contrib.auth.models import User\nfrom employee.models import Employee\nfrom base.models import Company, Department, JobPosition\nif not User.objects.exists():\n    user = User.objects.create_superuser(\"admin\", \"admin@example.com\", \"admin123\")\n    Employee.objects.create(employee_user_id=user, employee_first_name=\"Admin\", employee_last_name=\"User\", email=\"admin@example.com\", phone=\"1234567890\")\n    comp = Company.objects.create(company=\"HQ\")\n    dept = Department.objects.create(department=\"Management\", company_id=comp)\n    JobPosition.objects.create(job_position=\"Manager\", department_id=dept, company_id=comp)\n    print(\"✅ AHRM Database Initialized! Default Login - admin : admin123\")\n'",
+                adminCreate: "python3 manage.py createhorillauser --first_name Admin --last_name Admin --username __USER__ --password __PASS__ --email __EMAIL__ --phone 1234567890",
+                loadDemoCmd: "python3 manage.py loaddata initial_data"
+            },
                 dependencies: {
                     mode: 'pip',
                     files: ['requirements.txt']
@@ -51,11 +51,11 @@ const REPO_LIST = [
                 complexity: "Advanced",
                 stars: "500+",
                 setupCommands: {
-                    preInstall: "cp .env.dist .env 2>/dev/null || cp .env.example .env 2>/dev/null || true",
-                    postInstall: "python3 manage.py makemigrations && python3 manage.py migrate && echo \"\" && echo \"IMPORTANT: To initialize the database or load demo data, use the web UI.\"",
-                    adminCreate: "export DJANGO_SUPERUSER_PASSWORD=__PASS__ && python3 manage.py createsuperuser --noinput --username __USER__ --email __EMAIL__",
-                    loadDemoCmd: "python3 manage.py loaddata initial_data"
-                },
+                preInstall: "cp .env.dist .env 2>/dev/null || cp .env.example .env 2>/dev/null || true",
+                postInstall: "python3 manage.py makemigrations && python3 manage.py migrate\n\necho \"Initializing CRM Database using auto-generated password...\"\nif [ -f \".init_password\" ] || [ -f \"init_pass.txt\" ]; then\n    INIT_PW=$(cat .init_password 2>/dev/null || cat init_pass.txt 2>/dev/null)\n    python3 manage.py shell -c \"\nfrom django.contrib.auth import get_user_model\nfrom horilla_core.models import Company, Role\nUser = get_user_model()\nif not User.objects.exists():\n    user = User.objects.create_superuser('admin', 'admin@example.com', '${INIT_PW}')\n    comp = Company.objects.create(company_name='HQ', is_active=True)\n    user.company = comp\n    user.save()\n    Role.objects.create(role_name='CEO', company=comp)\n    print('✅ CRM Database Initialized! Default Login - admin : ' + '${INIT_PW}')\n\"\nfi",
+                adminCreate: "export DJANGO_SUPERUSER_PASSWORD=__PASS__ && python3 manage.py createsuperuser --noinput --username __USER__ --email __EMAIL__",
+                loadDemoCmd: "python3 manage.py loaddata initial_data"
+            },
                 defaults: {
                     adminUser: "admin",
                     adminPass: "admin"
