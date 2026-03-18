@@ -238,6 +238,76 @@ button,
     margin-top: 2rem;
 }
 
+/* Checkbox Groups */
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: hsl(var(--secondary));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.checkbox-item:hover {
+    border-color: hsl(var(--primary));
+}
+
+.checkbox-item input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid hsl(var(--border));
+    padding-bottom: 4px;
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: hsl(var(--muted-foreground));
+    cursor: pointer;
+    border-radius: calc(var(--radius) - 0.25rem);
+    transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+    color: hsl(var(--foreground));
+    background: hsl(var(--secondary));
+}
+
+.tab-btn.active {
+    color: hsl(var(--primary-foreground));
+    background: hsl(var(--primary));
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease-out;
+}
+
 /* Platform Tabs */
 .platform-toggle {
     display: grid;

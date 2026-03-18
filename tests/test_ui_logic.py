@@ -65,3 +65,21 @@ def test_mutual_exclusivity(page: Page):
     page.check("#createSuper")
     expect(page.locator("#createSuper")).to_be_checked()
     expect(page.locator("#initDb")).not_to_be_checked()
+
+def test_responsive_layout(page: Page):
+    import os
+    index_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "index.html"))
+    page.goto(f"file://{index_path}")
+    page.wait_for_selector("body", state="attached")
+
+    # Set viewport to a small mobile size
+    page.set_viewport_size({"width": 480, "height": 800})
+    
+    # Check that there is no horizontal scrolling by evaluating scrollWidth vs clientWidth
+    has_horizontal_scroll = page.evaluate("document.documentElement.scrollWidth > document.documentElement.clientWidth")
+    assert not has_horizontal_scroll, "Page has horizontal scroll at 480px width, layout is overflowing"
+
+    # Now verify at a split-screen 768px width
+    page.set_viewport_size({"width": 768, "height": 800})
+    has_horizontal_scroll_split = page.evaluate("document.documentElement.scrollWidth > document.documentElement.clientWidth")
+    assert not has_horizontal_scroll_split, "Page has horizontal scroll at 768px width, layout is overflowing"

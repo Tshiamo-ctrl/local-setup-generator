@@ -33,7 +33,7 @@
                     Supports Django, Flask, FastAPI & Generic Python
                 </div>
             </div>
-            <div style="display: flex; gap: 8px;">
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                 <button class="btn-secondary" onclick="openRunAppModal()" title="Run Locally as Desktop App"
                     style="padding: 8px 16px; display: flex; align-items: center; gap: 6px;">
                     <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -256,12 +256,14 @@
                     <div class="checkbox-group">
                         <div class="checkbox-item" id="initDbContainer"
                             onclick="document.getElementById('initDb').click()">
-                            <input type="checkbox" id="initDb" checked onchange="resolveMutualExclusivity('initDb')" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="initDb" checked onchange="resolveMutualExclusivity('initDb')"
+                                onclick="event.stopPropagation()">
                             <span>Initialize Database</span>
                         </div>
                         <div class="checkbox-item" id="createSuperContainer"
                             onclick="document.getElementById('createSuper').click()">
-                            <input type="checkbox" id="createSuper" checked onchange="resolveMutualExclusivity('createSuper')" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="createSuper" checked
+                                onchange="resolveMutualExclusivity('createSuper')" onclick="event.stopPropagation()">
                             <span>Create Admin User</span>
                         </div>
                         <div class="checkbox-item" onclick="document.getElementById('runServer').click()">
@@ -678,7 +680,8 @@
                         Quick Execution
                     </h3>
 
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px;">
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 24px;">
                         <div>
                             <p class="help-text"
                                 style="font-weight: 600; margin-bottom: 8px; color: var(--foreground);">1. Make scripts
@@ -2280,7 +2283,7 @@ echo "Done."
         function resolveMutualExclusivity(source) {
             const initDb = document.getElementById('initDb');
             const createSuper = document.getElementById('createSuper');
-            
+
             if (!initDb || !createSuper) return;
 
             if (source === 'initDb' && initDb.checked) {
